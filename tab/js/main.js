@@ -1,8 +1,7 @@
 const tabsParent = document.querySelector('.tabheader__items'),
       tabs = document.querySelectorAll('.tabheader__item'),
       tabsContent = document.querySelectorAll('.tabcontent'),
-      loader = document.querySelector('.loader')
-
+      loader = document.querySelector('.loader');
          // Tabs
     function hideTabContent() {
         tabsContent.forEach((item) => {
@@ -31,3 +30,41 @@ const tabsParent = document.querySelector('.tabheader__items'),
           })
         }
       })
+       // Timer
+ const deadline = '2023.08.15';
+ function getTimeRemaining(endtime) {
+   const timer = Date.parse(endtime) - Date.parse(new Date()),
+   days = Math.floor(timer / (1000 * 60 * 60 * 24))
+   hours = Math.floor((timer / (1000 * 60 * 60)) % 24)
+   minutes = Math.floor((timer / 1000 / 60) % 60)
+   seconds = Math.floor((timer / 1000) % 60)
+   return { timer, days, hours, minutes, seconds }
+}
+function getZero(num) {
+  if (num >= 0 && num < 10) {
+    return `0${num}`
+  } else {
+    return num
+  }
+}
+function setClock(selector, endtime) {
+  const timer = document.querySelector(selector),
+    days = timer.querySelector('#days'),
+    hours = timer.querySelector('#hours'),
+    minutes = timer.querySelector('#minutes'),
+    seconds = timer.querySelector('#seconds'),
+    timeInterval = setInterval(updatClock, 1000)
+  updatClock()
+  function updatClock() {
+    const t = getTimeRemaining(endtime)
+    days.innerHTML = getZero(t.days)
+    hours.innerHTML = getZero(t.hours)
+    minutes.innerHTML = getZero(t.minutes)
+    seconds.innerHTML = getZero(t.seconds)
+
+    if (t.timer <= 0) {
+      clearInterval(timeInterval)
+    }
+  }
+}
+setClock('.timer', deadline)
